@@ -225,19 +225,24 @@ namespace FlappyBird
                     gravitace = 3; //v pripade, ze rychlost letu vzhuru by presahla limit, ptak zacne znovu padat dolu               
             }
 
+            if (stav == Stav.START)
+            {
+                if (e.KeyCode == Keys.Space)
+                {
+                    NastavStav(Stav.HRA); //iniciace hry, ve stavu START hrac zmackne mezernik
+                }
+            }
+
             if (stav == Stav.KONEC)
             {
                 if (e.KeyCode == Keys.Escape) //pokud chce hrac skoncit, ve stavu KONEC stiskne ESC
                 {
                     Application.Exit();
                 }
-
-                NastavStav(Stav.START); //jinak pokud ve stavu KONEC stiskne mezernik, hrac se vrati na uvitaci obrazovku
-            }
-
-            if (stav == Stav.START)
-            {
-                NastavStav(Stav.HRA); //iniciace hry, ve stavu START hrac zmackne mezernik
+                if (e.KeyCode == Keys.Space)
+                {
+                    NastavStav(Stav.START); //jinak pokud ve stavu KONEC stiskne mezernik, hrac se vrati na uvitaci obrazovku
+                } 
             }
         }
         private void KeyUpEvent(object sender, KeyEventArgs e) //po uvolneni je gravitace zmenena o 6, aby ptacek 

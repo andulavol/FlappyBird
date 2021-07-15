@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 //Anna Volková
@@ -18,7 +12,7 @@ namespace FlappyBird
     {
         // region : promenne
         int gravitace = 3; //o gravitaci se zmeni ptackova pozice o 3 smerem dolu po ose x pohybuje (tzn. zajistuje padani)
-        readonly int rychlostprekazek = 4; //slouzi k posunuti prekazek smerem doleva
+        int rychlostprekazek = 3; //slouzi k posunuti prekazek smerem doleva
         double skoreHrace = 0;
         // end region
 
@@ -53,6 +47,7 @@ namespace FlappyBird
                     skoreHrace = 0; //skore je na zacatku hry nastaveno na 0 
                     skore.Text = "Počet kreditů: 0"; 
                     gravitace = 3; //nastaveni gravitace na hodnotu 6 je potreba v pripade opakovane hry 
+                    rychlostprekazek = 4;
 
                     ptacek.Left = 125;
                     ptacek.Top = 195; //umisteni ptacka na defaultni pozici
@@ -185,6 +180,26 @@ namespace FlappyBird
                 skoreHrace += 0.022; //zvysovani skore, aby to vychazelo s timerem na minuti prekazky
                 int intSkore = Convert.ToInt32(skoreHrace);
                 skore.Text = "Počet kreditů: " + intSkore.ToString();
+
+                if (skoreHrace < 10)
+                {
+                    skore.Text = "V prváku: " + intSkore.ToString();
+                }
+                if (skoreHrace < 20 & skoreHrace >= 10)
+                {
+                    rychlostprekazek = 4;
+                    skore.Text = "V druháku: " + intSkore.ToString();
+                }
+                if (skoreHrace < 40 & skoreHrace >= 20)
+                {
+                    rychlostprekazek = 5;
+                    skore.Text = "V třeťáku: " + intSkore.ToString();
+                }
+                if (skoreHrace == 40)
+                {
+                    PosouvaniPrekazky(0);
+                    NastavStav(Stav.KONEC);
+                }
 
                 // nize resim kolize, pokud ptacek narazi do prekazek, zeme, ci je moc vysoko (mimo okno) nastavim stav KONEC
                 //System.Windows.Forms.PictureBox prek in prekazky
